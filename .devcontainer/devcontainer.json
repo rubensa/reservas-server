@@ -1,0 +1,126 @@
+{
+  "name": "reservas-server",
+  "context": ".",
+  "dockerFile": "Dockerfile",
+  "appPort": [
+    // Back-end development port (Spring Boot server)
+    "0.0.0.0:8080:8080"
+  ],
+  "postCreateCommand": [
+    "/bin/bash",
+    "-l",
+    "-c",
+    "export JAVA_VERSION=8.0; export MAVEN_VERSION=3.6; sdk install java $(sdk list java | grep -o \"${JAVA_VERSION}\\.[0-9\\.]*hs-adpt\" | head -1) || true; sdk install maven $(sdk list java | grep -o \"${MAVEN_VERSION}\\.[0-9\\.]*\" | head -1) || true;"
+  ],
+  "extensions": [
+    // Lombok support
+    "GabrielBB.vscode-lombok",
+    // Spring boot support
+    "pivotal.vscode-boot-dev-pack",
+    // JavaDoc
+    "madhavd1.javadoc-tools",
+    // Java Support
+    "dgileadi.java-decompiler",
+    "vscjava.vscode-java-pack",
+    // XML Support
+    "redhat.vscode-xml",
+    // Docker support
+    "ms-azuretools.vscode-docker",
+    // GIT support
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    // History support
+    "xyz.local-history"
+  ],
+  "settings": {
+    // Configure Lombok
+    "java.jdt.ls.vmargs": "-noverify -Xmx1G -XX:+UseG1GC -XX:+UseStringDeduplication -javaagent:\"/home/user/.vscode-server/extensions/gabrielbb.vscode-lombok-0.9.9/server/lombok.jar\"",
+    // Configure spring-boot 
+    "spring-boot.ls.java.home": "/opt/sdkman/candidates/java/current",
+    // Configure Maven
+    "maven.executable.path": "/opt/sdkman/candidates/maven/current/bin/mvn",
+    "maven.executable.preferMavenWrapper": true,
+    // Configure Java
+    "java.home": "/opt/sdkman/candidates/java/current",
+    "java.import.exclusions": [
+      "**/node_modules/**",
+      "**/.metadata/**",
+      "**/archetype-resources/**",
+      "**/META-INF/maven/**",
+      "**/NBG-Server/**"
+    ],
+    // Run interactive bash shell in VSCode integrated terminal
+    "terminal.integrated.shellArgs.linux": [
+      "-l"
+    ],
+    // Configure glob patterns for excluding files and folders.
+    "files.exclude": {
+      "**/.classpath": true,
+      "**/.project": true,
+      "**/.settings": true,
+      "**/.factorypath": true,
+      "**/.git": true,
+      "**/.gradle": true,
+      "**/.idea": true,
+      "**/.mvn": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/.DS_Store": true
+    },
+    // Configure glob patterns for excluding files and folders in searches. Inherits all glob patterns from the files.exclude setting.
+    "search.exclude": {
+      "**/node": true,
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/build": true,
+      "**/target": true
+    },
+    // Show control characters
+    "editor.renderControlCharacters": true,
+    // Do not use current file indentation
+    "editor.detectIndentation": false,
+    // Use 2 characters for tabs
+    "editor.tabSize": 2,
+    // Format code on paste
+    "editor.formatOnPaste": true,
+    // Format code on file save
+    "editor.formatOnSave": true,
+    // Format code while typing
+    "editor.formatOnType": true,
+    // Disable preview editor
+    "workbench.editor.enablePreview": false
+  },
+  "runArgs": [
+    // User SDKMan archives
+    "--mount",
+    "type=bind,source=${env:HOME}/.sdkman/archives,target=/opt/sdkman/archives",
+    // User Maven repo
+    "--mount",
+    "type=bind,source=${env:HOME}/.m2/repository,target=/home/user/.m2/repository",
+    // User ssh keys
+    "--mount",
+    "type=bind,source=${env:HOME}/.ssh,target=/home/user/.ssh",
+    // User GIT config
+    "--mount",
+    "type=bind,source=${env:HOME}/.gitconfig,target=/home/user/.gitconfig",
+    // Docker in Docker
+    "--mount",
+    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock",
+    "--mount",
+    "type=bind,source=/usr/local/bin/docker,target=/home/user/.local/bin/docker",
+    // cut -d: -f3 < <(getent group docker)
+    "--group-add",
+    "1001",
+    // VSCode server cache
+    "--mount",
+    "type=bind,source=${localWorkspaceFolder}/.vscode-server/bin,target=/home/user/.vscode-server/bin",
+    "--mount",
+    "type=bind,source=${localWorkspaceFolder}/.vscode-server/extensions,target=/home/user/.vscode-server/extensions",
+    // $(id -u):$(id -g)
+    "-u",
+    "1000:1000",
+    // Timezone
+    "--env=TZ=Europe/Madrid"
+  ],
+  "overrideCommand": false
+}
