@@ -6,6 +6,8 @@ Las tecnologías a utilizar serán **Java** para la parte del back-end usando co
 
 ## Acerca de
 
+[![Build Status](https://travis-ci.org/rubensa/reservas-server.svg)](https://travis-ci.org/rubensa/reservas-server)
+
 Proyecto generado con [Spring Initializr](https://start.spring.io/) con la siguiente configuración:
 *  **Project**: Maven Project
 *  **Language**: Java
