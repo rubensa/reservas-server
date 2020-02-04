@@ -39,6 +39,7 @@
     "spring-boot.ls.java.home": "/opt/sdkman/candidates/java/current",
     // Configure Maven
     "maven.executable.path": "/opt/sdkman/candidates/maven/current/bin/mvn",
+    "maven.terminal.useJavaHome": true,
     "maven.executable.preferMavenWrapper": true,
     // Configure Java
     "java.home": "/opt/sdkman/candidates/java/current",

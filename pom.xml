@@ -18,8 +18,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- https://github.com/spotify/dockerfile-maven -->
-    <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+    <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
     <docker.image.prefix>rubensa</docker.image.prefix>
+    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <!-- Do not deploy to maven repo -->
     <maven.deploy.skip>true</maven.deploy.skip>
   </properties>
@@ -77,24 +78,11 @@
         </executions>
       </plugin>
 
-      <!-- https://github.com/spotify/dockerfile-maven -->
-      <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>dockerfile-maven-plugin</artifactId>
-        <version>${dockerfile-maven-version}</version>
-        <configuration>
-          <repository>${docker.image.prefix}/${project.artifactId}</repository>
-          <tag>${project.version}</tag>
-          <buildArgs>
-            <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-          </buildArgs>
-        </configuration>
-      </plugin>
-
       <!-- https://maven.apache.org/plugins/maven-dependency-plugin/ -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-dependency-plugin.version}</version>
         <executions>
           <!-- unpack the resulting jar -->
           <execution>
@@ -114,6 +102,32 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- https://github.com/spotify/dockerfile-maven -->
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>dockerfile-maven-plugin</artifactId>
+        <version>${dockerfile-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>deploy</id>
+            <goals>
+              <goal>build</goal>
+              <goal>push</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <dockerfile>docker/Dockerfile</dockerfile>
+          <contextDirectory>.</contextDirectory>
+          <repository>${docker.image.prefix}/${project.artifactId}</repository>
+          <tag>${project.version}</tag>
+          <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+          <buildArgs>
+            <DEPENDENCY>target/dependency</DEPENDENCY>
+          </buildArgs>
+        </configuration>
       </plugin>
     </plugins>
   </build>

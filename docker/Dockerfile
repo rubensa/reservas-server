@@ -11,12 +11,12 @@ VOLUME /tmp
 EXPOSE 8080
 
 # The application's exploded jar file
-ARG DEPENDENCY=target/dependency
+ARG DEPENDENCY
 
 # Add the application's jar to the container
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY ${DEPENDENCY}/META-INF /app/META-INF
 COPY ${DEPENDENCY}/BOOT-INF/classes /app
 
-# Run the jar file 
+# Run the app
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-cp","app:app/lib/*","org.eu.rubensa.uniovi.reservas.ReservasServerApplication"]

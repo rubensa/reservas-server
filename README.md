@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rubensa/reservas-server.svg)](https://travis-ci.org/rubensa/reservas-server)
+
 # Plataforma web para la gestión de reservas de aulas y espacios comunes en la Escuela Politécnica de Ingeniería de Gijón
 
 Los administradores de la plataforma podrán definir los recursos disponibles (tales como aulas, salas de reuniones, etc.), así como definir el calendario o las fechas en las que estos recursos pueden ser utilizados. Los usuarios de la plataforma podrán visualizar las reservas efectuadas, así como conocer la disponibilidad de un determinado recurso en un período de tiempo dado o para una fecha concreta. La plataforma soportará carga masiva de datos, para lo que se definirán ficheros de intercambio con las herramientas actuales de gestión de horarios de la Escuela y del sistema de gestión académica SIES.
@@ -5,8 +7,6 @@ Los administradores de la plataforma podrán definir los recursos disponibles (t
 Las tecnologías a utilizar serán **Java** para la parte del back-end usando como framework de desarrollo **Spring** y **Java Script** para la parte del front-end usando como framework de desarrollo **Angular**.
 
 ## Acerca de
-
-[![Build Status](https://travis-ci.org/rubensa/reservas-server.svg)](https://travis-ci.org/rubensa/reservas-server)
 
 Proyecto generado con [Spring Initializr](https://start.spring.io/) con la siguiente configuración:
 *  **Project**: Maven Project
