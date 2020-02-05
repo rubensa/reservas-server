@@ -10,25 +10,7 @@ Las tecnologías a utilizar serán **Java** para la parte del back-end usando co
 
 ## Acerca de
 
-Proyecto generado con [Spring Initializr](https://start.spring.io/) con la siguiente configuración:
-*  **Project**: Maven Project
-*  **Language**: Java
-*  **Spring Boot**: 2.2.4
-*  **Project Metadata**:
-    *  **Group**: org.eu.rubensa.uniovi
-    *  **Artifact**: reservas-server
-    *  **Options**:
-        *  **Name**: reservas-server
-        *  **Description**: Plataforma web para la gestión de reservas de aulas y espacios comunes
-        *  **Package name**: org.eu.rubensa.uniovi.reservas
-        *  **Packaging**: Jar
-        *  **Java**: 8
-*  **Dependencies**:
-    *  Spring Web
-    *  Spring Data JPA
-    *  H2 Database
-    *  PostgreSQL Driver
-    *  Lombok
+[https://rubensa.github.io/reservas-server/](https://rubensa.github.io/reservas-server/)
 
 ## Desarrollo
 
