@@ -15,17 +15,33 @@
 
   <properties>
     <java.version>1.8</java.version>
+
+    <maven.version>3.3.9</maven.version>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- https://github.com/spotify/dockerfile-maven -->
-    <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
-    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+
+    <!-- Plugin versions (only those that are not defined in `spring-boot-starter-parent`) -->
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-    <maven-site-plugin.version>3.8.2</maven-site-plugin.version>
-    <site-maven-plugin.version>0.12</site-maven-plugin.version>
     <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+    <maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
+    <jdepend-maven-plugin.version>2.0</jdepend-maven-plugin.version>
+    <maven-pmd-plugin.version>3.11.0</maven-pmd-plugin.version>
+    <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
+    <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
+    <site-maven-plugin.version>0.12</site-maven-plugin.version>
+    <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+
+    <!-- Spring Boot doesn't have this property... so, this is needed -->
+    <maven-surefire-report-plugin.version>3.0.0-M4</maven-surefire-report-plugin.version>
+
+    <!-- Overriding Spring Boot's version so that this version matches Maven Surefire Report Plugin version -->
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+    <surefire-junit47.version>3.0.0-M4</surefire-junit47.version>
+
     <!-- Do not deploy to maven repo -->
     <maven.deploy.skip>true</maven.deploy.skip>
+
     <!-- Custom properties -->
     <docker.image.prefix>rubensa</docker.image.prefix>
     <!-- GitHub OAuth token & server -->
@@ -33,15 +49,27 @@
     <github.global.oauth2Token>${env.GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
   </properties>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
-      <email>rubensa@gmail.com</email>
-      <name>Ruben Saurez</name>
-      <url>https://github.com/rubensa</url>
       <id>rubensa</id>
+      <name>Ruben Saurez</name>
+      <email>rubensa@gmail.com</email>
+      <url>https://github.com/rubensa</url>
     </developer>
-
   </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/rubensa/reservas-server.git</connection>
+    <developerConnection>scm:git:git://github.com/rubensa/reservas-server.git</developerConnection>
+    <url>https://github.com/rubensa/reservas-server</url>
+  </scm>
 
   <organization>
     <name>rubensa</name>
@@ -52,12 +80,6 @@
     <system>GitHub Issues</system>
     <url>https://github.com/rubensa/reservas-server/issues</url>
   </issueManagement>
-
-  <scm>
-    <url>https://github.com/rubensa/reservas-server</url>
-    <connection>scm:git:git://github.com/rubensa/reservas-server.git</connection>
-    <developerConnection>scm:git:git://github.com/rubensa/reservas-server.git</developerConnection>
-  </scm>
 
   <dependencies>
     <dependency>
@@ -98,10 +120,96 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>${maven-project-info-reports-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>${maven-jxr-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jdepend-maven-plugin</artifactId>
+          <version>${jdepend-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven-pmd-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>${findbugs-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>taglist-maven-plugin</artifactId>
+          <version>${taglist-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.github</groupId>
+          <artifactId>site-maven-plugin</artifactId>
+          <version>${site-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>${maven-surefire-report-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven-dependency-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.spotify</groupId>
+          <artifactId>dockerfile-maven-plugin</artifactId>
+          <version>${dockerfile-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.github</groupId>
+          <artifactId>site-maven-plugin</artifactId>
+          <version>${site-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
+      <!--
+      Enable Spring Boot support.
+      http://docs.spring.io/spring-boot/docs/current/maven-plugin/
+      -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!--
+          Create 2 artifacts: one as dependency and another as executable fat JAR
+          See https://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-create-an-additional-executable-jar
+          -->
+          <classifier>exec</classifier>
+        </configuration>
         <executions>
           <execution>
             <id>build-info</id>
@@ -112,13 +220,203 @@
         </executions>
       </plugin>
 
-      <!-- https://maven.apache.org/plugins/maven-dependency-plugin/ -->
+      <!--
+      Versions Maven Plugin - Makes it easier to upgrade plugins and dependencies
+      http://www.mojohaus.org/versions-maven-plugin/
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+      </plugin>
+
+      <!--
+      Surefire Maven Plugin - Runs unit tests.
+      http://maven.apache.org/surefire/maven-surefire-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- Redirect JBoss logging to SLF4J -->
+          <systemPropertyVariables>
+            <org.jboss.logging.provider>slf4j</org.jboss.logging.provider>
+          </systemPropertyVariables>
+
+          <!-- The first 4 patterns are SureFire's default. Adding Spock's `*Spec` default pattern. -->
+          <includes>
+            <include>**/Test*.class</include>
+            <include>**/*Test.class</include>
+            <include>**/*Tests.class</include>
+            <include>**/*TestCase.class</include>
+            <include>**/*Spec.class</include>
+          </includes>
+          <excludes>
+            <exclude>**/Abstract*.class</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <!--
+      Maven Failsafe Plugin - Runs integration tests.
+      http://maven.apache.org/surefire/maven-failsafe-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      Maven Site Plugin - Generates site.
+      http://maven.apache.org/plugins/maven-site-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <relativizeDecorationLinks>false</relativizeDecorationLinks>
+        </configuration>
+        <executions>
+          <!--
+          In Maven 3, site:attach-descriptor has been removed from the built-in lifecycle bindings,
+          so need to explicitly define `attach-descriptor` goal to pick up src/site/site.xml.
+          -->
+          <execution>
+            <id>attach-descriptor</id>
+            <goals>
+              <goal>attach-descriptor</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      JaCoCo Maven Plugin - Code coverage report for JVM languages.
+      http://www.eclemma.org/jacoco/
+      -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/generated/**</exclude>
+            <exclude>**/scratch/**</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>default-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-prepare-agent-integration</id>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>default-report-integration</id>
+            <goals>
+              <goal>report-integration</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      Maven Enforcer Plugin - Bans certain dependencies and ensure minimum Maven version is used.
+      http://maven.apache.org/enforcer/maven-enforcer-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <!--
+          If these banned dependencies exist, fail the build right away.
+          Xalan, Xerces and Xml-APIs - Known to cause problem when deployed to server. Use the ones
+          provided by server.
+          See http://stackoverflow.com/questions/11677572/dealing-with-xerces-hell-in-java-maven
+          -->
+          <execution>
+            <id>enforce-banned-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <fail>true</fail>
+              <rules>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>xalan</exclude>
+                    <exclude>xerces</exclude>
+                    <exclude>xml-apis</exclude>
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+          <!--
+          Ensures everyone is using at least the specified Maven version or later.
+          -->
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>${maven.version}</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      Maven Source Plugin - Generates source JAR file.
+      https://maven.apache.org/plugins/maven-source-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      Apache Maven Dependency Plugin - Manipulate artifacts.
+      https://maven.apache.org/plugins/maven-dependency-plugin/
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>${maven-dependency-plugin.version}</version>
         <executions>
-          <!-- unpack the resulting jar -->
+          <!-- 
+          Unpack the resulting jar 
+          -->
           <execution>
             <id>unpack</id>
             <phase>package</phase>
@@ -131,6 +429,7 @@
                   <groupId>${project.groupId}</groupId>
                   <artifactId>${project.artifactId}</artifactId>
                   <version>${project.version}</version>
+                  <classifier>exec</classifier>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -138,11 +437,62 @@
         </executions>
       </plugin>
 
-      <!-- https://github.com/spotify/dockerfile-maven -->
+      <!--
+      GitHub Site Plugin - Generates Maven site in project GitHub page.
+      https://github.com/github/maven-plugins
+      -->
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <configuration>
+          <message>Creating site for ${project.version}</message>
+          <server>github</server>
+          <!--
+          Need to disable Jekyll because JaCoCo static files are stored in `.resources` directory.
+          -->
+          <noJekyll>true</noJekyll>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>site</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      Maven Javadoc Plugin - Generates Javadoc.
+      https://maven.apache.org/plugins/maven-javadoc-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!--
+          Shuts off non-error and non-warning messages, leaving only the warnings and errors
+          appear, making them easier to view.
+          -->
+          <quiet>true</quiet>
+        </configuration>
+      </plugin>
+
+      <!-- 
+      Dockerfile Maven - Integrate Maven with Docker
+      https://github.com/spotify/dockerfile-maven
+      -->
       <plugin>
         <groupId>com.spotify</groupId>
         <artifactId>dockerfile-maven-plugin</artifactId>
-        <version>${dockerfile-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>deploy</id>
@@ -163,86 +513,157 @@
           </buildArgs>
         </configuration>
       </plugin>
-
-      <!-- https://www.eclemma.org/jacoco/trunk/doc/maven.html -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- http://maven.apache.org/plugins/maven-site-plugin/  -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>${maven-site-plugin.version}</version>
-      </plugin>
-
-      <!-- https://github.com/github/maven-plugins -->
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>site-maven-plugin</artifactId>
-        <version>${site-maven-plugin.version}</version>
-        <configuration>
-          <message>Building site for ${project.name} ${project.version}</message>
-          <server>github</server>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>site</goal>
-            </goals>
-            <phase>site</phase>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
   <reporting>
     <plugins>
-      <!-- http://maven.apache.org/plugins/maven-project-info-reports-plugin/ -->
+      <!--
+      Maven Project Info Reports Plugin - Generates reports information about the project.
+      https://maven.apache.org/plugins/maven-project-info-reports-plugin/
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${maven-project-info-reports-plugin.version}</version>
+        <configuration>
+          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+        </configuration>
+      </plugin>
+
+      <!--
+      Maven Surefire Reports Plugin - Parses generated test results from both unit tests and integration tests.
+      http://maven.apache.org/surefire/maven-surefire-report-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
         <reportSets>
           <reportSet>
             <reports>
-              <report>index</report>
-              <report>licenses</report>
-              <report>dependency-info</report>
-              <report>ci-management</report>
-              <report>dependencies</report>
-              <report>dependency-convergence</report>
-              <report>dependency-management</report>
-              <report>distribution-management</report>
-              <report>help</report>
-              <report>issue-management</report>
-              <report>mailing-lists</report>
-              <report>modules</report>
-              <report>plugin-management</report>
-              <report>plugins</report>
-              <report>team</report>
-              <report>scm</report>
-              <report>summary</report>
+              <report>failsafe-report-only</report>
+              <report>report-only</report>
             </reports>
           </reportSet>
         </reportSets>
+      </plugin>
+
+      <!--
+      JaCoCo Maven Plugin - Code coverage report for JVM languages.
+      http://www.eclemma.org/jacoco/
+      -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!--
+      Maven Javadoc Plugin - Generates Javadoc.
+      https://maven.apache.org/plugins/maven-javadoc-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!--
+          Shuts off non-error and non-warning messages, leaving only the warnings and errors
+          appear, making them easier to view.
+          -->
+          <quiet>true</quiet>
+        </configuration>
+      </plugin>
+
+      <!--
+      Maven JXR Plugin - Generates a cross-reference of the project's sources.
+      http://maven.apache.org/plugins/maven-jxr-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+
+      <!--
+      JDepend Maven Plugin - Generates design quality metrics for each Java package.
+      http://www.mojohaus.org/jdepend-maven-plugin/
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jdepend-maven-plugin</artifactId>
+      </plugin>
+
+      <!--
+      Maven PMD Plugin - Generates PMD and CPD reports.
+      http://maven.apache.org/plugins/maven-pmd-plugin/
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <!--suppress MavenModelInspection -->
+          <targetJdk>${jdk.version}</targetJdk>
+          <excludes>
+            <exclude>**/generated/**</exclude>
+            <exclude>**/scratch/**</exclude>
+          </excludes>
+          <excludeRoots>
+            <excludeRoot>target/generated-sources</excludeRoot>
+          </excludeRoots>
+        </configuration>
+      </plugin>
+
+      <!--
+      FindBugs Maven Plugin - Inspects Java bytecode for occurrences of bug patterns.
+      http://www.mojohaus.org/findbugs-maven-plugin/
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+        </configuration>
+      </plugin>
+
+      <!--
+      TagList Maven Plugin - Generates a report on various tags found in the code.
+      http://www.mojohaus.org/taglist-maven-plugin/
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <configuration>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Todo</displayName>
+                <tags>
+                  <tag>
+                    <matchString>todo</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>Cleanup</displayName>
+                <tags>
+                  <tag>
+                    <matchString>@deprecated</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>
