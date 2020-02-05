@@ -31,6 +31,7 @@
     <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
     <site-maven-plugin.version>0.12</site-maven-plugin.version>
     <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+    <heroku-maven-plugin.verion>2.0.16</heroku-maven-plugin.verion>
 
     <!-- Spring Boot doesn't have this property... so, this is needed -->
     <maven-surefire-report-plugin.version>3.0.0-M4</maven-surefire-report-plugin.version>
@@ -44,6 +45,7 @@
 
     <!-- Custom properties -->
     <docker.image.prefix>rubensa</docker.image.prefix>
+    <full-artifact-name>target/${project.artifactId}-${project.version}-exec.jar</full-artifact-name>
     <!-- GitHub OAuth token & server -->
     <github.global.server>github</github.global.server>
     <github.global.oauth2Token>${env.GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
@@ -188,9 +190,9 @@
           <version>${dockerfile-maven-plugin.version}</version>
         </plugin>
         <plugin>
-          <groupId>com.github.github</groupId>
-          <artifactId>site-maven-plugin</artifactId>
-          <version>${site-maven-plugin.version}</version>
+          <groupId>com.heroku.sdk</groupId>
+          <artifactId>heroku-maven-plugin</artifactId>
+          <version>${heroku-maven-plugin.verion}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -493,15 +495,6 @@
       <plugin>
         <groupId>com.spotify</groupId>
         <artifactId>dockerfile-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>deploy</id>
-            <goals>
-              <goal>build</goal>
-              <goal>push</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <dockerfile>docker/Dockerfile</dockerfile>
           <contextDirectory>.</contextDirectory>
@@ -513,6 +506,26 @@
           </buildArgs>
         </configuration>
       </plugin>
+
+      <!--
+      Heroku Maven Plugin - Deploy Java applications directly to Heroku without pushing to a Git repository
+      https://github.com/heroku/heroku-maven-plugin
+      -->
+      <plugin>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-maven-plugin</artifactId>
+        <configuration>
+          <appName>rubensa-reservas-server</appName>
+          <processTypes>
+            <web>java $JAVA_OPTS -jar -Dserver.port=$PORT ${full-artifact-name}</web>
+          </processTypes>
+          <includeTarget>false</includeTarget>
+          <includes>
+            <include>${full-artifact-name}</include>
+          </includes>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
