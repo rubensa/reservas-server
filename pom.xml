@@ -19,10 +19,12 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- https://github.com/spotify/dockerfile-maven -->
     <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
-    <docker.image.prefix>rubensa</docker.image.prefix>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <!-- Do not deploy to maven repo -->
     <maven.deploy.skip>true</maven.deploy.skip>
+    <!-- Custom properties -->
+    <docker.image.prefix>rubensa</docker.image.prefix>
   </properties>
 
   <dependencies>
@@ -128,6 +130,27 @@
             <DEPENDENCY>target/dependency</DEPENDENCY>
           </buildArgs>
         </configuration>
+      </plugin>
+
+      <!-- jacoco-maven-plugin useful for Codecov -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

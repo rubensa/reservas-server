@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/rubensa/reservas-server.svg)](https://travis-ci.org/rubensa/reservas-server)
+[![codecov](https://codecov.io/gh/rubensa/reservas-server/branch/master/graph/badge.svg)](https://codecov.io/gh/rubensa/reservas-server)
 
 # Plataforma web para la gestión de reservas de aulas y espacios comunes en la Escuela Politécnica de Ingeniería de Gijón
 
