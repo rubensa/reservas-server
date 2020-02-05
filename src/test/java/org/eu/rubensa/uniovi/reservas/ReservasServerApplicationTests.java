@@ -16,6 +16,13 @@ class ReservasServerApplicationTests {
 
   @Test
   void contextLoads() {
+    Assertions.assertThat(true).isTrue();
+  }
+
+  @Test
+  public void applicationStarts() {
+    ReservasServerApplication.main(new String[] {});
+    Assertions.assertThat(true).isTrue();
   }
 
   @Test

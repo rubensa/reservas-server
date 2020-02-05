@@ -132,7 +132,7 @@
         </configuration>
       </plugin>
 
-      <!-- jacoco-maven-plugin useful for Codecov -->
+      <!-- https://www.eclemma.org/jacoco/trunk/doc/maven.html -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
