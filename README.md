@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/rubensa/reservas-server/branch/master/graph/badge.svg)](https://codecov.io/gh/rubensa/reservas-server)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rubensa_reservas-server&metric=alert_status)](https://sonarcloud.io/dashboard?id=rubensa_reservas-server)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=rubensa-reservas-server&style=flat&svg=1)](https://rubensa-reservas-server.herokuapp.com/)
+[![Website](https://img.shields.io/website?down_color=red&down_message=down&label=GitHub%20Pages&up_color=green&up_message=up&url=https%3A%2F%2Frubensa.eu.org%2Freservas-server%2Findex.html)](https://rubensa.github.io/reservas-server/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Plataforma web para la gestión de reservas de aulas y espacios comunes en la Escuela Politécnica de Ingeniería de Gijón
@@ -9,10 +10,6 @@
 Los administradores de la plataforma podrán definir los recursos disponibles (tales como aulas, salas de reuniones, etc.), así como definir el calendario o las fechas en las que estos recursos pueden ser utilizados. Los usuarios de la plataforma podrán visualizar las reservas efectuadas, así como conocer la disponibilidad de un determinado recurso en un período de tiempo dado o para una fecha concreta. La plataforma soportará carga masiva de datos, para lo que se definirán ficheros de intercambio con las herramientas actuales de gestión de horarios de la Escuela y del sistema de gestión académica SIES.
 
 Las tecnologías a utilizar serán **Java** para la parte del back-end usando como framework de desarrollo **Spring** y **Java Script** para la parte del front-end usando como framework de desarrollo **Angular**.
-
-## Acerca de
-
-[https://rubensa.github.io/reservas-server/](https://rubensa.github.io/reservas-server/)
 
 ## Desarrollo
 
