@@ -7,7 +7,7 @@ cache:
     - $HOME/.m2/repository
 
 jdk:
-- openjdk8
+- openjdk11
 
 services:
 - docker
@@ -19,7 +19,7 @@ addons:
 before_install:
 - mvn clean
 - echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_ID" --password-stdin
-- docker pull openjdk:8-jre-alpine
+- docker pull adoptopenjdk/openjdk11:alpine-jre
 
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=rubensa_reservas-server package dockerfile:build verify dockerfile:push heroku:deploy

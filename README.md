@@ -15,7 +15,7 @@ Las tecnologías a utilizar serán **Java** para la parte del back-end usando co
 
 Este proyecto está configurado para ser editado en **[VSCode](https://code.visualstudio.com/)** y sus extensiones para **[Desarrollo Remoto](https://code.visualstudio.com/docs/remote/remote-overview)**.
 
-Concretamente el desarrollo se realiza en un contenedor **Docker** (es necesario tener instalado Docker en tu equipo) con una imagen con **Java 8** y **Maven 3.6**.
+Concretamente el desarrollo se realiza en un contenedor **Docker** (es necesario tener instalado Docker en tu equipo) con una imagen con **Java 11** y **Maven 3.6**.
 
 Antes de abrir el proyecto en el contedor usando **VSCode**, es necesario adaptar los siguiente parámetros en el fichero **./devcontainer/devcontainer.json**:
 *  **runArgs**

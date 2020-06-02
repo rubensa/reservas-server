@@ -11,11 +11,9 @@
     "/bin/bash",
     "-l",
     "-c",
-    "export JAVA_VERSION=8.0; export MAVEN_VERSION=3.6; sdk install java $(sdk list java | grep -o \"${JAVA_VERSION}\\.[0-9\\.]*hs-adpt\" | head -1) || true; sdk install maven $(sdk list java | grep -o \"${MAVEN_VERSION}\\.[0-9\\.]*\" | head -1) || true;"
+    "export JAVA_VERSION=11.0; export JAVA_INSTALL_VERSION=$(sdk list java | grep -o \"${JAVA_VERSION}\\.[0-9\\.]*hs-adpt\" | head -1); sdk install java $JAVA_INSTALL_VERSION || true; ln -s /opt/sdkman/candidates/java/$JAVA_INSTALL_VERSION /opt/sdkman/candidates/java/$JAVA_VERSION; export MAVEN_VERSION=3.6; export MAVEN_INSTALL_VERSION=$(sdk list maven | grep -o \"${MAVEN_VERSION}\\.[0-9\\.]*\" | head -1); sdk install maven $MAVEN_INSTALL_VERSION || true;"
   ],
   "extensions": [
-    // Lombok support
-    "GabrielBB.vscode-lombok",
     // Spring boot support
     "pivotal.vscode-boot-dev-pack",
     // JavaDoc
@@ -34,22 +32,31 @@
     "xyz.local-history"
   ],
   "settings": {
-    // Configure Lombok
-    "java.jdt.ls.vmargs": "-noverify -Xmx1G -XX:+UseG1GC -XX:+UseStringDeduplication -javaagent:\"/home/user/.vscode-server/extensions/gabrielbb.vscode-lombok-0.9.9/server/lombok.jar\"",
+    // Increase memory for Java Language Server and Configure Lombok
+    "java.jdt.ls.vmargs": "-noverify -Xmx3G -Xss128M -XX:+UseG1GC -XX:+UseStringDeduplication -javaagent:\"/home/user/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar\"",
     // Configure spring-boot 
-    "spring-boot.ls.java.home": "/opt/sdkman/candidates/java/current",
+    "spring-boot.ls.java.home": "/opt/sdkman/candidates/java/11.0",
     // Configure Maven
     "maven.executable.path": "/opt/sdkman/candidates/maven/current/bin/mvn",
     "maven.terminal.useJavaHome": true,
     "maven.executable.preferMavenWrapper": true,
     // Configure Java
-    "java.home": "/opt/sdkman/candidates/java/current",
+    // Configure Java
+    "java.configuration.runtimes": [
+      {
+        "name": "JavaSE-11",
+        "path": "/opt/sdkman/candidates/java/11.0",
+      }
+    ],
+    "java.home": "/opt/sdkman/candidates/java/11.0",
     "java.import.exclusions": [
       "**/node_modules/**",
       "**/.metadata/**",
       "**/archetype-resources/**",
       "**/META-INF/maven/**",
-      "**/NBG-Server/**"
+      "**/NBG-Server/**",
+      "**/.vscode-server/**",
+      "**/.history/**"
     ],
     // Run interactive bash shell in VSCode integrated terminal
     "terminal.integrated.shellArgs.linux": [
@@ -75,7 +82,9 @@
       "**/node_modules": true,
       "**/bower_components": true,
       "**/build": true,
-      "**/target": true
+      "**/target": true,
+      "**/.vscode-server": true,
+      "**/.history": true
     },
     // Show control characters
     "editor.renderControlCharacters": true,
