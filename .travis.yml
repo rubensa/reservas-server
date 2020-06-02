@@ -15,8 +15,6 @@ services:
 addons:
   sonarcloud:
     organization: "rubensa"
-    token:
-      secure: $SONAR_TOKEN
 
 before_install:
 - mvn clean
