@@ -21,7 +21,7 @@ Antes de abrir el proyecto en el contedor usando **VSCode**, es necesario adapta
 *  **runArgs**
     *  **"-u", "1000:1000"**: 1000:1000 se debe cambiar por tu UID, GID.  Para conocerlos puedes ejecutar el comando `echo "$(id -u):$(id -g)"` en una consola.
 *   **"--group-add", "1001"**: 1001 se debe cambiar por el GID del grupo **docker**.  Para conocerlo puedes ejecutar el comando `cut -d: -f3 < <(getent group docker)` en una consola.
-*   **"--mount", "type=bind,source=/usr/local/bin/docker,target=/home/user/.local/bin/docker"**: Asegúrate que **/usr/local/bin/docker** es la ruta correcta al binario de tu instalación de docker local.  Si no es así, actualíza dicha ruta.
+*   **"--mount", "type=bind,source=/usr/bin/docker,target=/home/user/.local/bin/docker"**: Asegúrate que **/usr/bin/docker** es la ruta correcta al binario de tu instalación de docker local.  Si no es así, actualíza dicha ruta.
 
 Además, deben existir los siguientes directorios en tu directorio **HOME**:
 *  **.sdkman/archives**: Se usa para compartir las distribuciones descargadas de Java y Maven entre el host y el contenedor.

@@ -108,7 +108,7 @@
     "--mount",
     "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock",
     "--mount",
-    "type=bind,source=/usr/local/bin/docker,target=/home/user/.local/bin/docker",
+    "type=bind,source=/usr/bin/docker,target=/home/user/.local/bin/docker",
     // cut -d: -f3 < <(getent group docker)
     "--group-add",
     "1001",
