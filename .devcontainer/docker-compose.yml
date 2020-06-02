@@ -1,0 +1,45 @@
+# Min version needed to allow setting network name (https://github.com/docker/compose/issues/3736)
+version: '3.5'
+services:
+  reservas-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - reservas-network
+    # Back-end development port (Spring Boot server)
+    #ports:
+    #  - "0.0.0.0:8080:8080"
+    # $(id -u):$(id -g)
+    user: "1000:1000"
+    # Option not available since Docker Compose 3 (https://github.com/docker/compose/issues/4700)
+    #group_add:
+      # cut -d: -f3 < <(getent group docker)
+    #  - 1001
+    volumes:
+      # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
+      # mounts are relative to the first file in the list, which is a level up.
+      - ../:/workspace
+      # User SDKMan archives
+      - ${HOME}/.sdkman/archives:/opt/sdkman/archives
+      # User Maven repo
+      - ${HOME}/.m2/repository:/home/user/.m2/repository
+      # User ssh keys
+      - ${HOME}/.ssh:/home/user/.ssh
+      # User GIT config
+      - ${HOME}/.gitconfig:/home/user/.gitconfig
+      # Docker in Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/home/user/.local/bin/docker
+      # VSCode server cache
+      - ${PWD}/.vscode-server/bin:/home/user/.vscode-server/bin
+      - ${PWD}/.vscode-server/extensions:/home/user/.vscode-server/extensions
+    environment:
+      - TZ=Europe/Madrid
+    # Container service dependencies
+
+networks:
+  reservas-network:
+    # Create or join a network with given name
+    name: reservas-network
+

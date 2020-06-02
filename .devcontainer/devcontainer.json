@@ -1,12 +1,14 @@
 {
   "name": "reservas-server",
-  "context": ".",
-  "dockerFile": "Dockerfile",
-  "workspaceFolder": "/workspace",
-  "appPort": [
-    // Back-end development port (Spring Boot server)
-    //"0.0.0.0:8080:8080"
+  "dockerComposeFile": [
+    "docker-compose.yml"
   ],
+  "service": "reservas-server",
+  "workspaceFolder": "/workspace",
+  "runServices": [
+    "reservas-server"
+  ],
+  "shutdownAction": "stopCompose",
   "postCreateCommand": [
     "/bin/bash",
     "-l",
@@ -100,41 +102,5 @@
     "editor.formatOnType": true,
     // Disable preview editor
     "workbench.editor.enablePreview": false
-  },
-  "runArgs": [
-    // User SDKMan archives
-    "--mount",
-    "type=bind,source=${env:HOME}/.sdkman/archives,target=/opt/sdkman/archives",
-    // User Maven repo
-    "--mount",
-    "type=bind,source=${env:HOME}/.m2/repository,target=/home/user/.m2/repository",
-    // User ssh keys
-    "--mount",
-    "type=bind,source=${env:HOME}/.ssh,target=/home/user/.ssh",
-    // User GIT config
-    "--mount",
-    "type=bind,source=${env:HOME}/.gitconfig,target=/home/user/.gitconfig",
-    // Docker in Docker
-    "--mount",
-    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock",
-    "--mount",
-    "type=bind,source=/usr/bin/docker,target=/home/user/.local/bin/docker",
-    // cut -d: -f3 < <(getent group docker)
-    "--group-add",
-    "1001",
-    // VSCode server cache
-    "--mount",
-    "type=bind,source=${localWorkspaceFolder}/.vscode-server/bin,target=/home/user/.vscode-server/bin",
-    "--mount",
-    "type=bind,source=${localWorkspaceFolder}/.vscode-server/extensions,target=/home/user/.vscode-server/extensions",
-    // $(id -u):$(id -g)
-    "-u",
-    "1000:1000",
-    // Timezone
-    "--env=TZ=Europe/Madrid",
-    // Mounts the project folder to '/workspace'.
-    "--mount",
-    "type=bind,source=${localWorkspaceFolder},target=/workspace"
-  ],
-  "overrideCommand": false
+  }
 }
