@@ -2,6 +2,7 @@
   "name": "reservas-server",
   "context": ".",
   "dockerFile": "Dockerfile",
+  "workspaceFolder": "/workspace",
   "appPort": [
     // Back-end development port (Spring Boot server)
     //"0.0.0.0:8080:8080"
@@ -121,7 +122,10 @@
     "-u",
     "1000:1000",
     // Timezone
-    "--env=TZ=Europe/Madrid"
+    "--env=TZ=Europe/Madrid",
+    // Mounts the project folder to '/workspace'.
+    "--mount",
+    "type=bind,source=${localWorkspaceFolder},target=/workspace"
   ],
   "overrideCommand": false
 }
